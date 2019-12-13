@@ -236,6 +236,9 @@ void Application::GameInit()
 	a->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 100.f));
 	a->name = std::string("Collision Ground");
 	
+	afasdfa
+		cz\kjxcb\lkzjxbck\jbzxcz
+
 	for (int i = 0; i < 10; i++)
 	{
 		std::shared_ptr <Entity> a = std::make_shared<Entity>();
@@ -246,7 +249,8 @@ void Application::GameInit()
 				Resources::GetInstance()->GetShader("light"),
 				Resources::GetInstance()->GetTexture("Box_Texture.jpg"))
 		);
-		a->GetTransform()->SetPosition(glm::vec3(50.0f, 15.f * i, 50.0f));	//glm::vec3(0, 15.f * i, -120.f)
+		
+		a->GetTransform()->SetPosition(glm::vec3(50.0f, 15.f * i, 50.f));	//glm::vec3(0, 15.f * i, -120.f)
 		a->AddComponent<RigidBody>();
 		a->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(1.0f, 1.0f, 1.0f)));
 		a->GetTransform()->SetScale(glm::vec3(1.f, 1.f, 1.f));
