@@ -90,7 +90,7 @@ void Application::OpenGlInit()
 }
 
 void Application::GameInit()
-{
+{	
 	// Use Invisible Cursor
 	EngineCursor::UseInvisibleCursor();
 
@@ -103,7 +103,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("SimpleSphere.obj");
 	Resources::GetInstance()->AddModel("SimpleCylinder.obj");
 
-	Resources::GetInstance()->AddTexture("Wood.jpg");
+	//Resources::GetInstance()->AddTexture("Wood.jpg");
 	Resources::GetInstance()->AddTexture("crate_1 texture.jpg");
 
 	Resources::GetInstance()->AddShader(std::make_shared<ShaderProgram>(std::string(ASSET_PATH) + std::string("simple_VERT.glsl"),
@@ -113,7 +113,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddShader(std::make_shared<ShaderProgram>(std::string(ASSET_PATH) + std::string("simpleColor_VERT.glsl"),
 		std::string(ASSET_PATH) + std::string("simpleColor_FRAG.glsl")), "simpleColor");
 
-	Resources::GetInstance()->AddHeightMap("HeightMap.bmp");
+	Resources::GetInstance()->AddHeightMap(std::string("HeightMap.bmp"));	//HeightMap.bmp
 
 	//Create Camera
 	std::shared_ptr<Entity> fpsCamera= std::make_shared<Entity>();
@@ -134,7 +134,7 @@ void Application::GameInit()
 			Resources::GetInstance()->GetShader("light"),
 			Resources::GetInstance()->GetTexture("crate_1 texture.jpg"))
 	);
-
+	
 	//Light 1
 	std::shared_ptr<Entity> pointLight1 = std::make_shared<Entity>();
 	m_entities.push_back(pointLight1);
@@ -185,13 +185,14 @@ void Application::GameInit()
 	m_entities.push_back(pointLight5);
 	pointLight5->GetTransform()->SetPosition(glm::vec3(-30, 10, -20));
 
-	std::shared_ptr<PointLight> pl5 = std::make_shared<PointLight>(5.0f, glm::vec3(0.01f, 0.1f, 0.1f), glm::vec3(0.f, 0.f, 1.0f), glm::vec3(0.0f, 0.5f, 0.0f));
+	std::shared_ptr<PointLight> pl5 = std::make_shared<PointLight>(2.0f, glm::vec3(0.01f, 0.01f, 0.01f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 1.0f));
 	pl5->m_attenuation = 0.0001f;
 	pl5->m_specularExponent = 112.0f;
 
 	pointLight5->AddComponent(pl5);
 	
 	//Terrain
+	
 	std::shared_ptr<Terrain> terrainComp = std::make_shared<Terrain>(Resources::GetInstance()->GetHeightMap("HeightMap.bmp"), 1000, 1000);
 	terrainComp->SetHeight(10.0f);
 	terrainComp->SetResolutionX(10000);
@@ -235,9 +236,7 @@ void Application::GameInit()
 	a->GetComponent<RigidBody>()->Get()->setMassProps(0.0f, btVector3());
 	a->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 100.f));
 	a->name = std::string("Collision Ground");
-	
-	afasdfa
-		cz\kjxcb\lkzjxbck\jbzxcz
+
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -250,7 +249,7 @@ void Application::GameInit()
 				Resources::GetInstance()->GetTexture("Box_Texture.jpg"))
 		);
 		
-		a->GetTransform()->SetPosition(glm::vec3(50.0f, 15.f * i, 50.f));	//glm::vec3(0, 15.f * i, -120.f)
+		a->GetTransform()->SetPosition(glm::vec3(0, 15.f * i, -120.f));
 		a->AddComponent<RigidBody>();
 		a->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(1.0f, 1.0f, 1.0f)));
 		a->GetTransform()->SetScale(glm::vec3(1.f, 1.f, 1.f));

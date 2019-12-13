@@ -8,7 +8,6 @@ public:
 
 	//Setters / Getters
 	std::vector<std::vector<float>>* GetHeights();
-	float GetHeight(const float& x, const float& y);
 	float GetHeight(const int& x, const int& y);
 
 private:

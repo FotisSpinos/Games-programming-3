@@ -11,7 +11,7 @@
 #define WINDOW_W Application::GetInstance()->GetWindowWidth()
 #define WINDOW_H Application::GetInstance()->GetWindowHeight()
 
-#define ASSET_PATH "./assets/"
+#define ASSET_PATH "../assets/"
 
 
 enum AppState

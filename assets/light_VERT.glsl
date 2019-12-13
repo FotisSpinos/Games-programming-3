@@ -22,7 +22,7 @@ void main()
 {
 	// Set vertex variables
 	V_textureCords = textureCoords;
-	V_fragmentPos = vec3(model * vec4(position, 0.0));
+	V_fragmentPos = vec3(model * vec4(position, 1.0));
 
 	V_norm = vec3(model * vec4(normal, 0.0));
 

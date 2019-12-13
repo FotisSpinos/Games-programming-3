@@ -13,50 +13,9 @@ std::vector<std::vector<float>>* HeightMap::GetHeights()
 	return &m_heights;
 }
 
-float HeightMap::GetHeight(const float& x, const float& y)
-{	
-	if (x == std::floor(x) && y == std::floor(y))
-		return GetHeight((int)x, (int)y);
-
-	int intX = int(x);
-	int intY = int(y);
-
-	std::vector<float> effect;
-	float height = 0;
-
-	float testDist = (1 + ((glm::vec2(x, y) - glm::vec2(intX, intY)).length()));
-	float testData2 = 1 / (1 + ((glm::vec2(x, y) - glm::vec2(intX, intY)).length()));
-
-	//Get Neighbors
-	//if (intX > 0 && intY < m_heights.size())
-	float dist = 1 + ((glm::vec2(x, y) - glm::vec2(intX, intY)).length());
-		effect.push_back(1 / dist);
-
-	//if(intX + 1 > 0 && intY < m_heights.size())
-		dist = (1 + ((glm::vec2(x, y) - glm::vec2(intX + 1, intY)).length()));
-		effect.push_back(1 / dist);
-
-
-	//if (intX > 0 && intY + 1 < m_heights.size())
-		dist = (1 + (glm::vec2(x, y) - glm::vec2(intX, intY + 1)).length());
-		effect.push_back(1 / dist);
-
-	//if (intX + 1> 0 && intY + 1 < m_heights.size())
-		dist = 1 + (glm::vec2(x, y) - glm::vec2(intX + 1, intY + 1)).length();
-		effect.push_back(1 / dist);
-
-
-	for (int i = 0; i < effect.size(); i++)
-	{
-		height += effect[i];
-	}
-
-	height /= effect.size();
-	return height;
-}
-
 float HeightMap::GetHeight(const int& x, const int& y)
 {
+	//return 0;
 	int indxX = 0;
 	int indxY = 0;
 	
@@ -83,7 +42,7 @@ void HeightMap::LoadHeightMap()
 
 	if (img == nullptr)
 	{
-		LOG_DEBUG("height map could not be loaded");
+		LOG_DEBUG("Unable to open file " + m_fileName);
 		return;
 	}
 

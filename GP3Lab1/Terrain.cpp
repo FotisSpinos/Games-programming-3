@@ -101,13 +101,6 @@ void Terrain::GenerateTerrain()
 				glm::vec4(1),
 				glm::vec2(1.0f, 0.0f)));
 
-			//AddColliders
-			//std::shared_ptr<RigidBody> rig = std::make_shared<RigidBody>();
-			//m_entity->AddComponent(rig);
-			//rig->Init(new BoxShape(glm::vec3(sizeX, 0.1f, sizeY)), 0.2f, glm::highp_vec3(1), botLetft.pos);
-
-			//Application
-
 			//Culculate quad normal
 			glm::vec3 dir1 = glm::normalize(topLeft.pos - botLetft.pos);
 			glm::vec3 dir2 = glm::normalize(botRight.pos - botLetft.pos);
