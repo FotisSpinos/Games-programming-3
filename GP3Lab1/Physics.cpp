@@ -17,6 +17,11 @@ void Physics::Init()
 	m_world->setGravity(btVector3(0, -9.8, 0));
 }
 
+Physics::~Physics()
+{
+	delete m_instance;
+}
+
 void Physics::PhysicsTickCallBack(btDynamicsWorld* world, btScalar timeStep)
 {
 	btDispatcher* dispatcher = world->getDispatcher();

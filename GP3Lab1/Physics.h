@@ -19,6 +19,7 @@ private:
 	void Init();
 
 	std::unordered_map<btRigidBody*, std::shared_ptr<RigidBody>> m_rbodiesMap;
+	~Physics();
 
 public:
 	static Physics* GetInstance();
