@@ -15,9 +15,9 @@ public:
 	template<class T> void AddComponent();
 	template<class T> std::shared_ptr<T> GetComponent();
 
-	virtual void CollisionUpdate();
-	virtual void OnUpdate(float deltaTime);
-	virtual void OnRender();
+	void CollisionUpdate();
+	void OnUpdate(float deltaTime);
+	void OnRender();
 
 	Transform* GetTransform() { return m_transform; };
 
@@ -27,8 +27,13 @@ public:
 template<class T>
 void Entity::AddComponent()
 {
+	//Create a shared pointer
 	std::shared_ptr<T> t = std::make_shared<T>();
+
+	//Dynamicly cast the object to a Component
 	std::shared_ptr<Component> c = std::dynamic_pointer_cast<Component>(t);
+
+	//Check if the type is a component
 	if (c != nullptr)
 	{
 		c->m_entity = this;
@@ -37,7 +42,7 @@ void Entity::AddComponent()
 	}
 	else
 	{
-		LOG_DEBUG("Can't add component, does not inherit from Component");
+		LOG_WARNING("Can't add component, does not inherit from Component");
 	}
 }
 
@@ -46,10 +51,13 @@ std::shared_ptr<T> Entity::GetComponent()
 {
 	std::shared_ptr<T> t = std::make_shared<T>();
 
+	//Casts type to a component
 	std::shared_ptr<Component> c = std::dynamic_pointer_cast<Component>(t);
 
 	if (c == nullptr)
 	{
+		//return null if cast is unsuccessful
+		LOG_WARNING("GetComponent cannot use a non conponent type object");
 		return nullptr;
 	}
 

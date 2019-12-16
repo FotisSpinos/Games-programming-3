@@ -33,7 +33,6 @@ MeshRenderer::MeshRenderer(std::shared_ptr<Model> model, std::shared_ptr<ShaderP
 
 void MeshRenderer::OnUpdate(float deltaTime)
 {
-	Transform *test = m_entity->GetTransform();
 }
 
 void MeshRenderer::OnRender()
