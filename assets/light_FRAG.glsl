@@ -25,15 +25,17 @@ out vec4 color;
 
 void main()
 {
-	vec4 texColor = texture2D(usingTexture, V_textureCords);
 
 	// normalize normal
 	vec3 norm = normalize(V_norm);
 
+	// define the texture color
+	vec4 texColor = texture2D(usingTexture, V_textureCords);
+
 	//culculate distance magnitude with camera
 	float distMagnitude = length(cameraPos - V_fragmentPos);
 
-	vec3 combinedLight;
+	vec3 combinedLightColor;
 
 	for(int i = 0; i < lightsCount; i++)
 	{
@@ -61,12 +63,12 @@ void main()
 		float distanceFactor = 1 / (1 + lights[i].attenuation * pow(lightDistance, 2));
 
 		// culculate total color
-		vec3 lightColor = lights[i].ambient + distanceFactor * (diffuse + specular) * lights[i].intensity;
-		combinedLight += lightColor;
+		vec3 lightColor = (lights[i].ambient + distanceFactor * (diffuse + specular)) * lights[i].intensity;
+		combinedLightColor += lightColor;
 	}
 
 	// apply gama correction
 	vec3 gamma = vec3(gammaCorrection);
 
-	color = vec4(pow(combinedLight, gamma), 1.0) * texColor;
+	color = vec4(pow(combinedLightColor, gamma), 1.0) * texColor;
 }

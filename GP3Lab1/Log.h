@@ -64,5 +64,5 @@ public:
 		std::cout << logTypeMessage << " ";
 	}
 
-	virtual void Functionality() {}// Provide Extra functionality after we display the message, eg, pause application
+	virtual void Functionality() {}// Provide Extra functionality after the message is displayed, eg, pause application
 };

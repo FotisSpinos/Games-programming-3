@@ -30,7 +30,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
+std::shared_ptr<Mesh> Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<int> indices;
@@ -69,6 +69,7 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		}
 		vertices.push_back(vertex);
 	}
+
 	// process indices
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
@@ -78,7 +79,7 @@ Mesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			indices.push_back(face.mIndices[j]);
 		}
 	}
-	return new Mesh(vertices, indices);
+	return std::make_shared<Mesh>(vertices, indices);
 }
 
 Model::Model(std::string path)

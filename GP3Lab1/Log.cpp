@@ -52,10 +52,8 @@ void Log::ActivateLogType(ValidTypes logType, bool activate)
 
 bool Log::IsActive(const int type)
 {
-	int activeLogsOrType = activeLogs | type;
-	if (activeLogsOrType == activeLogs)
-		return true;
-	return false;
+	int activeLogsOrType = activeLogs & type;
+	return (activeLogsOrType == type);
 }
 
 int Log::GetActiveLogs()

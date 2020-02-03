@@ -51,17 +51,13 @@ void Application::Init()
 	OpenGlInit();
 	GameInit();
 
-
-	//void(*PhysicsTickFunction)(btDynamicsWorld*, btScalar);
-	//PhysicsTickFunction = Physics::GetInstance()->PhysicsTickCallBack;
-
+	//Set bullet's internal tick call back method ref
 	Physics::GetInstance()->GetWorld()->setInternalTickCallback(&Physics::PhysicsTickCallBack);
 }
 
 void Application::OpenGlInit()
 {
-	//creating context (our opengl statemachine in which all our GL calls
-	//will refer to)
+	//creating context (our opengl statemachine in which all our GL calls will refer to)
 	m_glContext = SDL_GL_CreateContext(m_window);
 	CHECK_GL_ERROR();
 	SDL_GL_SetSwapInterval(1);
@@ -103,7 +99,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("SimpleSphere.obj");
 	Resources::GetInstance()->AddModel("SimpleCylinder.obj");
 
-	//Resources::GetInstance()->AddTexture("Wood.jpg");
+
 	Resources::GetInstance()->AddTexture("crate_1 texture.jpg");
 
 	Resources::GetInstance()->AddShader(std::make_shared<ShaderProgram>(std::string(ASSET_PATH) + std::string("simple_VERT.glsl"),
@@ -135,64 +131,29 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("crate_1 texture.jpg"))
 	);
 	
-	//Light 1
+	//Creates light 1
 	std::shared_ptr<Entity> pointLight1 = std::make_shared<Entity>();
 	m_entities.push_back(pointLight1);
 	pointLight1->GetTransform()->SetPosition(glm::vec3(50.f, 15.f, 50.0f));
 
-	std::shared_ptr<PointLight> plc = std::make_shared<PointLight>(5.0f, glm::vec3(0.1f, 0.1f, 0.1f), glm::vec3(0.f, 0.f, 1.0f), glm::vec3(0.0f, 0.5f, 0.0f));
+	std::shared_ptr<PointLight> plc = std::make_shared<PointLight>(1.0f, glm::vec3(0.0001f, 0.1f, 0.1f), glm::vec3(0.f, 0.f, 1.0f), glm::vec3(0.0f, 0.5f, 0.0f));
 	plc->m_attenuation = 0.001f;
 	plc->m_specularExponent = 25.0f;
 
 	pointLight1->AddComponent(plc);
 
-	//Light 2
-	std::shared_ptr<Entity> pointLight2 = std::make_shared<Entity>();
-	m_entities.push_back(pointLight2);
-	pointLight2->GetTransform()->SetPosition(glm::vec3(50.f, 15.f, 150.0f));
-
-	std::shared_ptr<PointLight> plc2 = std::make_shared<PointLight>(5.0f, glm::vec3(0.01f, 0.1f, 0.1f), glm::vec3(0.f, 0.f, 1.0f), glm::vec3(0.0f, 0.5f, 0.0f));
-	plc2->m_attenuation = 0.001f;
-	plc2->m_specularExponent = 25.0f;
-
-	pointLight2->AddComponent(plc2);
-
-
-	//Light 3	
-	std::shared_ptr<Entity> pointLight3 = std::make_shared<Entity>();
-	m_entities.push_back(pointLight3);
-	pointLight3->GetTransform()->SetPosition(glm::vec3(150.f, 15.f, 50.0f));
-
-	std::shared_ptr<PointLight> plc3 = std::make_shared<PointLight>(5.0f, glm::vec3(0.01f, 0.1f, 0.1f), glm::vec3(0.f, 0.f, 1.0f), glm::vec3(0.0f, 0.5f, 0.0f));
-	plc3->m_attenuation = 0.0001f;
-	plc3->m_specularExponent = 112.0f;
-
-	pointLight3->AddComponent(plc3);
-
-	//Light 4	
-	std::shared_ptr<Entity> pointLight4 = std::make_shared<Entity>();
-	m_entities.push_back(pointLight4);
-	pointLight4->GetTransform()->SetPosition(glm::vec3(150.f, 15.f, 150.0f));
-
-	std::shared_ptr<PointLight> plc4 = std::make_shared<PointLight>(5.0f, glm::vec3(0.01f, 0.1f, 0.1f), glm::vec3(0.f, 0.f, 1.0f), glm::vec3(0.0f, 0.5f, 0.0f));
-	plc4->m_attenuation = 0.0001f;
-	plc4->m_specularExponent = 112.0f;
-
-	pointLight4->AddComponent(plc4);
-
-	// Spider model Light 4	
+	// Spider model Light 5
 	std::shared_ptr<Entity> pointLight5 = std::make_shared<Entity>();
 	m_entities.push_back(pointLight5);
 	pointLight5->GetTransform()->SetPosition(glm::vec3(-30, 10, -20));
 
-	std::shared_ptr<PointLight> pl5 = std::make_shared<PointLight>(2.0f, glm::vec3(0.01f, 0.01f, 0.01f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 1.0f));
+	std::shared_ptr<PointLight> pl5 = std::make_shared<PointLight>(1.0f, glm::vec3(0.0001f, 0.01f, 0.01f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 1.0f));
 	pl5->m_attenuation = 0.0001f;
 	pl5->m_specularExponent = 112.0f;
 
 	pointLight5->AddComponent(pl5);
 	
-	//Terrain
-	
+	//Create Terrain
 	std::shared_ptr<Terrain> terrainComp = std::make_shared<Terrain>(Resources::GetInstance()->GetHeightMap("HeightMap.bmp"), 1000, 1000);
 	terrainComp->SetHeight(10.0f);
 	terrainComp->SetResolutionX(10000);
@@ -219,7 +180,7 @@ void Application::GameInit()
 	std::shared_ptr<DebugMotionComponent> dmc = std::make_shared<DebugMotionComponent>(0.5f, 0.5f);
 	motionObject->AddComponent(dmc);
 
-	//Physics Environment
+	//Create physics objects
 	std::shared_ptr <Entity> a = std::make_shared<Entity>();
 	m_entities.push_back(a);
 	a->AddComponent(

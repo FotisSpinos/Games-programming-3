@@ -5,6 +5,7 @@
 #include "Application.h"
 #include "Camera.h"
 #include "LightingEnvironment.h"
+#include "Model.h"
 
 MeshRenderer::MeshRenderer(std::shared_ptr<Mesh> mesh, std::shared_ptr<ShaderProgram> program, std::shared_ptr<Texture> texture)
 {
@@ -20,7 +21,7 @@ MeshRenderer::MeshRenderer(std::shared_ptr<Model> model, std::shared_ptr<ShaderP
 	m_program = program;
 	m_texture = texture;
 
-	for (Mesh* mesh : m_model->GetMeshes())
+	for (std::shared_ptr<Mesh> mesh : m_model->GetMeshes())
 	{
 		mesh->Bind();
 
@@ -33,7 +34,6 @@ MeshRenderer::MeshRenderer(std::shared_ptr<Model> model, std::shared_ptr<ShaderP
 
 void MeshRenderer::OnUpdate(float deltaTime)
 {
-	Transform *test = m_entity->GetTransform();
 }
 
 void MeshRenderer::OnRender()
@@ -80,7 +80,7 @@ void MeshRenderer::OnRender()
 	// Provide support for rendering meshes and models 
 	if (m_model != nullptr)
 	{
-		for (Mesh* currentMesh : m_model->GetMeshes())
+		for (std::shared_ptr<Mesh> currentMesh : m_model->GetMeshes())
 		{
 			currentMesh->Bind();
 			GL_ATTEMPT(glDrawElements(GL_TRIANGLES, currentMesh->GetIndiciesCount(), GL_UNSIGNED_INT, 0));

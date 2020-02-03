@@ -11,7 +11,6 @@ public:
 	Terrain(std::shared_ptr<HeightMap> heightMap, float xSize, float ySize);
 
 	void UpdateMesh();
-	void UseHeights();
 
 	virtual void OnRender() override;
 	virtual void OnUpdate(float deltaTime) override;
@@ -23,7 +22,6 @@ public:
 	void SetResolutionY(float resolution);
 	void GenerateTerrain();
 	void SetHeight(float height);
-	void SmoothTerrain();
 	
 private:
 	float m_xSize;
@@ -37,7 +35,6 @@ private:
 
 	bool m_meshUpdateRequired;
 
-	Terrain() = delete;
 	std::shared_ptr<Mesh> m_mesh;
 	std::shared_ptr<MeshRenderer> m_meshRenderer;
 	std::shared_ptr<HeightMap> m_heightMap;

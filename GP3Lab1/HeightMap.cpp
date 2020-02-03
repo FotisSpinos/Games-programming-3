@@ -15,24 +15,12 @@ std::vector<std::vector<float>>* HeightMap::GetHeights()
 
 float HeightMap::GetHeight(const int& x, const int& y)
 {
-	//return 0;
 	int indxX = 0;
 	int indxY = 0;
-	
 
-	//std::cout << x << std::endl;
-	//std::cout << y << std::endl;
- 
 	indxY = y - std::floor(y / m_heights.size()) * m_heights.size();
 	indxX = x - std::floor(x / m_heights.at(indxY).size()) * m_heights.at(indxY).size();
 	
-	/*
-	if (m_heights.size() > y)
-		indxY = y;
-
-	if (m_heights.at(indxY).size() > x)
-		indxX = x;
-	*/
 	return m_heights.at(indxY).at(indxX);
 }
 
@@ -42,28 +30,36 @@ void HeightMap::LoadHeightMap()
 
 	if (img == nullptr)
 	{
-		LOG_DEBUG("Unable to open file " + m_fileName);
+		LOG_WARNING("Unable to open file " + m_fileName);
 		return;
 	}
 
 	std::vector<float> tmpHeights;
 
+	//Get image width and height
 	int imgHeight = img->h;
 	int imgWidth = img->w;
+
+	// Reserve vector space
 	m_heights.reserve(imgHeight);
+
+	//Clears heights on the current row
 	tmpHeights.reserve(imgWidth);
 
-	//Requires referensing? 
 	for (int h = 0; h < imgHeight; h++)
 	{
-		tmpHeights.clear();
 		for (int w = 0; w < imgWidth; w++)
 		{
+			//Define height for current pixel 
 			Uint32 pixel = ((Uint32*)img->pixels)[h * img->pitch / 4 + w];
 			Uint8 r, g, b;
 			SDL_GetRGB(pixel, img->format, &r, &g, &b);
 			tmpHeights.emplace_back((float)r / 255.0f);
 		}
 		m_heights.emplace_back(tmpHeights);
+
+		//Clears heights on the current row
+		tmpHeights.clear();
+		tmpHeights.reserve(imgWidth);
 	}
 }

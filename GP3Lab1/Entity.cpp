@@ -50,7 +50,5 @@ void Entity::CollisionUpdate()
 
 
 	*rb->GetPrevColldedBodies() = *rb->GetCollidedBodies();
-
-	//m_prevCollidedBodies = m_collidedBodies;
 	rb->GetCollidedBodies()->clear();
 }
