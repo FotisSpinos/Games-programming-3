@@ -9,8 +9,7 @@ void BoxPush::OnAttach()
 
 	if (rb.use_count() == 0)
 	{
-		m_entity->AddComponent<RigidBody>();
-		rb = m_entity->GetComponent<RigidBody>();
+		rb = m_entity->AddComponent<RigidBody>();
 		rb->Init(new BoxShape(glm::vec3(0.1f, 0.1f, 0.1f)));
 	}
 

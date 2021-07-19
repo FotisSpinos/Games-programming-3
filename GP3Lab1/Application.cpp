@@ -180,43 +180,49 @@ void Application::GameInit()
 	std::shared_ptr<DebugMotionComponent> dmc = std::make_shared<DebugMotionComponent>(0.5f, 0.5f);
 	motionObject->AddComponent(dmc);
 
-	//Create physics objects
-	std::shared_ptr <Entity> a = std::make_shared<Entity>();
-	m_entities.push_back(a);
-	a->AddComponent(
+	//Create ground
+	std::shared_ptr <Entity> physicsInstance = std::make_shared<Entity>();
+	m_entities.push_back(physicsInstance);
+	physicsInstance->AddComponent(
 		std::make_shared<MeshRenderer>(
 			Resources::GetInstance()->GetModel("Box.obj"),
 			Resources::GetInstance()->GetShader("light"),
 			Resources::GetInstance()->GetTexture("Box_Texture.jpg"))
 	);
 
-	std::shared_ptr<MeshRenderer> m = a->GetComponent<MeshRenderer>();
-	a->GetTransform()->SetPosition(glm::vec3(0, -10.f, -120.f));
-	a->AddComponent<RigidBody>();
-	a->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 1.f, 100.f)));
-	a->GetComponent<RigidBody>()->Get()->setMassProps(0.0f, btVector3());
-	a->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 100.f));
-	a->name = std::string("Collision Ground");
+	// Init transform and set name
+	physicsInstance->GetTransform()->SetPosition(glm::vec3(0, -10.f, -120.f));
+	physicsInstance->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 100.f));
+	physicsInstance->name = std::string("Collision Ground");
 
+	// Init rig
+	auto rig = physicsInstance->AddComponent<RigidBody>();
+	rig->Init(new BoxShape(glm::vec3(100.f, 1.f, 100.f)));
+	rig ->Get()->setMassProps(0.0f, btVector3());
 
-	for (int i = 0; i < 10; i++)
+	// Create physics boxes
+	for (int i = 0; i < 50; i++)
 	{
-		std::shared_ptr <Entity> a = std::make_shared<Entity>();
-		m_entities.push_back(a);
-		a->AddComponent(
+		std::shared_ptr <Entity> physicsBox = std::make_shared<Entity>();
+		m_entities.push_back(physicsBox);
+		physicsBox->AddComponent(
 			std::make_shared<MeshRenderer>(
 				Resources::GetInstance()->GetModel("Box.obj"),
 				Resources::GetInstance()->GetShader("light"),
 				Resources::GetInstance()->GetTexture("Box_Texture.jpg"))
 		);
 		
-		a->GetTransform()->SetPosition(glm::vec3(0, 15.f * i, -120.f));
-		a->AddComponent<RigidBody>();
-		a->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(1.0f, 1.0f, 1.0f)));
-		a->GetTransform()->SetScale(glm::vec3(1.f, 1.f, 1.f));
-		a->AddComponent<BoxPush>();
+		// Init transform and set name
+		physicsBox->GetTransform()->SetPosition(glm::vec3(0, 15.f * i, -120.f));
+		physicsBox->GetTransform()->SetScale(glm::vec3(1.f, 1.f, 1.f));
+		physicsBox->name = std::string("box") + std::to_string(i);
 
-		a->name = std::string("box") + std::to_string(i);
+		// init RigidBody
+		auto rig = physicsBox->AddComponent<RigidBody>();
+		rig->Init(new BoxShape(glm::vec3(1.0f, 1.0f, 1.0f)));
+
+		// Add BoxPush component
+		physicsBox->AddComponent<BoxPush>();
 	}
 }
 
@@ -278,9 +284,6 @@ void Application::Loop()
 
 		//TODO: print delta time using log
 		std::string deltaString = std::to_string(deltaTime);
-
-		//Print delta time
-		LOG_DEBUG("Delta Time " + deltaString);
 
 		// Release unsused resources
 		Resources::GetInstance()->ReleaseUnusedResources();

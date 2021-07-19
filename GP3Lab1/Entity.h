@@ -12,7 +12,7 @@ protected:
 public:
 	Entity();
 	void AddComponent(std::shared_ptr<Component> c);
-	template<class T> void AddComponent();
+	template<class T> std::shared_ptr<T> AddComponent();
 	template<class T> std::shared_ptr<T> GetComponent();
 
 	void CollisionUpdate();
@@ -25,7 +25,7 @@ public:
 };
 
 template<class T>
-void Entity::AddComponent()
+std::shared_ptr<T> Entity::AddComponent()
 {
 	//Create a shared pointer
 	std::shared_ptr<T> t = std::make_shared<T>();
@@ -39,10 +39,12 @@ void Entity::AddComponent()
 		c->m_entity = this;
 		m_components.push_back(c);
 		c->OnAttach();
+		return t;
 	}
 	else
 	{
 		LOG_WARNING("Can't add component, does not inherit from Component");
+		return std::shared_ptr<T>();
 	}
 }
 
