@@ -3,8 +3,8 @@
 <p>A component-based game engine developed using C++ and OpenGL</p>
 
 # Screenshots
-![Screenshot](https://github.com/FotisSpinos/Games-programming-3/blob/master/screenshots/FalllingBoxes.png)
 ![Screenshot](https://github.com/FotisSpinos/Games-programming-3/blob/master/screenshots/Spider.png) 
+![Screenshot](https://github.com/FotisSpinos/Games-programming-3/blob/master/screenshots/FalllingBoxes.png)
 ![Screenshot](https://github.com/FotisSpinos/Games-programming-3/blob/master/screenshots/Terrain.png)
  
 # Sources & Credits
