@@ -19,10 +19,7 @@ public:
 		VectorHelper::Vec3TofloatArray(specularColor, m_specularColor);
 	}
 
-	PointLight()
-	{
-
-	}
+	PointLight() {}
 
 	void SetSpecularExponent(float specularExponent) {
 		m_specularExponent = specularExponent;
@@ -51,13 +48,6 @@ public:
 	{
 		VectorHelper::Vec3TofloatArray(m_entity->GetTransform()->GetPosition(), m_position);
 	};
-
-	glm::vec3* GetPosition()
-	{
-		if(m_entity != nullptr)
-			return &m_entity->GetTransform()->GetPosition();
-		return nullptr;
-	}
 
 	float m_intensity;
 	float m_ambientColor[3] = {0};
